@@ -14,6 +14,7 @@ import javax.inject.Named;
 import java.io.File;
 import java.util.Properties;
 
+// TODO: consider using a library for dependency injection
 public class EventHubModule extends AbstractModule {
   private final Properties properties;
 

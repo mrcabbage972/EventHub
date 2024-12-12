@@ -23,7 +23,6 @@ import com.codecademy.eventhub.storage.filter.Filter;
 import com.codecademy.eventhub.storage.filter.TrueFilter;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import java.io.Closeable;
@@ -43,7 +42,6 @@ import java.util.Set;
 public class EventHub implements Closeable {
   private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("yyyyMMdd");
 
-  private final String directory;
   private final ShardedEventIndex shardedEventIndex;
   private final DatedEventIndex datedEventIndex;
   private final PropertiesIndex propertiesIndex;
@@ -54,7 +52,6 @@ public class EventHub implements Closeable {
   public EventHub(String directory, ShardedEventIndex shardedEventIndex,
       DatedEventIndex datedEventIndex, PropertiesIndex propertiesIndex,
       UserEventIndex userEventIndex, EventStorage eventStorage, UserStorage userStorage) {
-    this.directory = directory;
     this.shardedEventIndex = shardedEventIndex;
     this.datedEventIndex = datedEventIndex;
     this.propertiesIndex = propertiesIndex;
@@ -179,6 +176,7 @@ public class EventHub implements Closeable {
   }
 
   public List<String> getEventTypes() {
+  // TODO: deprecate this method
     return shardedEventIndex.getEventTypes();
   }
 
@@ -194,7 +192,6 @@ public class EventHub implements Closeable {
   public void close() throws IOException {
     //noinspection ResultOfMethodCallIgnored
     new File(directory).mkdirs();
-    eventStorage.close();
     userStorage.close();
     shardedEventIndex.close();
     propertiesIndex.close();
@@ -221,7 +218,6 @@ public class EventHub implements Closeable {
     for (int i = 0; i < eventTypeIds.length; i++) {
       eventTypeIds[i] = shardedEventIndex.getEventTypeId(eventTypes[i]);
     }
-    return eventTypeIds;
   }
 
   private List<Set<Integer>> getUserIdsSets(String groupByEventType, DateTime startDate,
@@ -244,7 +240,6 @@ public class EventHub implements Closeable {
     return rows;
   }
 
-  public List<String> getEventKeys(String eventType) {
     return propertiesIndex.getEventKeys(eventType);
   }
 
@@ -309,7 +304,6 @@ public class EventHub implements Closeable {
         seenUserIdSet.add(userId);
         seenUserIdList.add(userId);
         earliestEventIdList.add(eventId);
-      }
     }
   }
 
@@ -358,7 +352,7 @@ public class EventHub implements Closeable {
 
     public int getNumMatchedSteps() {
       return numMatchedSteps;
-    }
+  }
   }
 
   private static class CollectEvents implements UserEventIndex.Callback, EventIndex.Callback {
@@ -375,7 +369,6 @@ public class EventHub implements Closeable {
       events.add(eventStorage.getEvent(eventId));
       return true;
     }
-
     @Override
     public void onEventId(long eventId) {
       events.add(eventStorage.getEvent(eventId));

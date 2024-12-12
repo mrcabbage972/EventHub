@@ -1,6 +1,5 @@
 package com.codecademy.eventhub.web;
 
-import com.codecademy.eventhub.EventHub;
 import com.codecademy.eventhub.EventHubModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
