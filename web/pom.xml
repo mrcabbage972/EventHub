@@ -35,7 +35,7 @@
             <version>2.2.4</version>
         </dependency>
             <groupId>EventHub</groupId>
-            <artifactId>hub</artifactId>
+            <version>4.12</version>
             <version>4.13.1</version>
         </dependency>
         </dependency>
