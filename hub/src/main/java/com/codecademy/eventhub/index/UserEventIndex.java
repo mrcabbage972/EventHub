@@ -127,13 +127,6 @@ public class UserEventIndex implements Closeable {
     // TODO
     String indent  = new String(new char[indentation]).replace('\0', ' ');
     return String.format(
-  public void close() throws IOException {
-    index.close();
-    blockFactory.close();
-  }
-
-  public String getVarz(int indentation) {
-    // TODO
     String indent  = new String(new char[indentation]).replace('\0', ' ');
     return String.format(
         indent + this.getClass().getName() + "\n" +
