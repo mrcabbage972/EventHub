@@ -49,7 +49,6 @@ public class ByteBufferMap {
       @Override
       public void callback(String key, String value) {
         sb.append(key).append(": ").append(value).append("\n");
-      }
     });
     return sb.toString();
   }

@@ -5,8 +5,8 @@ import com.google.inject.Provides;
 import com.codecademy.eventhub.base.DB;
 import org.fusesource.leveldbjni.JniDBFactory;
 import org.iq80.leveldb.Options;
-
-import javax.inject.Named;
+import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
 import java.io.File;
 import java.io.IOException;
 
@@ -16,7 +16,7 @@ public class PropertiesIndexModule extends AbstractModule {
 
   @Provides
   public PropertiesIndex getPropertiesIndex(
-      @Named("eventhub.directory") String eventIndexDirectory) throws IOException {
+      String eventIndexDirectory) throws IOException {
     //noinspection ResultOfMethodCallIgnored
     new File(eventIndexDirectory).mkdirs();
     Options options = new Options();

@@ -1,7 +1,6 @@
 package com.codecademy.eventhub.storage;
 
 import com.codecademy.eventhub.model.User;
-import com.codecademy.eventhub.storage.visitor.Visitor;
 
 import java.io.IOException;
 
@@ -38,10 +37,6 @@ public class DelegateUserStorage implements UserStorage {
   }
 
   @Override
-  public Visitor getFilterVisitor(int userId) {
-    return userStorage.getFilterVisitor(userId);
-  }
-
   @Override
   public void alias(String fromExternalUserId, int toUserId) {
     userStorage.alias(fromExternalUserId, toUserId);

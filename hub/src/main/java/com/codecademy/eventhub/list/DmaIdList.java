@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 
 /**
- * Currently, it can contain up to MAX_NUM_RECORDS records. ((2^31 - 1) - 4) / 8, i.e. largest
+ * Currently, it can contain up to MAX_NUM_RECORDS records. ((2^31 - 1) - 4) / 8, i.e., largest
  * indexable address in (MappedByteBuffer - size of metadata) / size of a long typed id.
  * Since it's used in IndividualEventIndex and UserEventIndex, this implied that no single date
  * nor single user can have number of events exceeding this limit.

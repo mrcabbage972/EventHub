@@ -1,5 +1,6 @@
 package com.codecademy.eventhub.storage;
 
+import java.io.IOException;
 import com.google.common.collect.Maps;
 import com.codecademy.eventhub.storage.filter.ExactMatch;
 import com.codecademy.eventhub.base.BloomFilter;
@@ -8,8 +9,6 @@ import com.codecademy.eventhub.list.DmaList;
 import com.codecademy.eventhub.model.User;
 import com.codecademy.eventhub.storage.filter.Regex;
 import com.codecademy.eventhub.storage.visitor.DelayedVisitorProxy;
-import com.codecademy.eventhub.storage.visitor.Visitor;
-
 import javax.inject.Provider;
 import java.io.IOException;
 

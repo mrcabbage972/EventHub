@@ -1,5 +1,7 @@
 package com.codecademy.eventhub.index;
 
+import java.io.Closeable;
+import java.io.IOException;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Sets;
 import com.codecademy.eventhub.base.DB;
@@ -7,8 +9,6 @@ import com.codecademy.eventhub.base.KeyValueCallback;
 import com.codecademy.eventhub.model.Event;
 import com.codecademy.eventhub.model.User;
 
-import java.io.Closeable;
-import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 

@@ -7,10 +7,10 @@ import java.io.IOException;
 
 
 public class IdMap implements Closeable {
-  private static final String ID_KEY = "__eventtracker__id";
+    private static final String ID_KEY = "__eventtracker__id";
 
-  private final DB db;
-  private int nextAvailableId;
+    private final DB db;
+    private int nextAvailableId;
 
   private IdMap(DB db, int nextAvailableId) {
     this.db = db;
@@ -18,20 +18,20 @@ public class IdMap implements Closeable {
   }
 
   public int incrementNextAvailableId() {
-    int availableId = nextAvailableId;
-    db.put(ID_KEY, "" + (++nextAvailableId));
-    return availableId;
+      int availableId = nextAvailableId;
+      db.put(ID_KEY, "" + (++nextAvailableId));
+      return availableId;
   }
 
   public void put(String externalId, int id) {
-    db.put(externalId, id);
+      db.put(externalId, id);
   }
 
   public Integer get(String externalUserId) {
-    String value = db.get(externalUserId);
-    if (value == null) {
-      //noinspection ReturnOfNull
-      return null;
+      String value = db.get(externalUserId);
+      if (value == null) {
+        //noinspection ReturnOfNull
+        return null;
     }
     return Integer.parseInt(value);
   }
@@ -39,15 +39,15 @@ public class IdMap implements Closeable {
   public int getCurrentId() {
     return nextAvailableId;
   }
-
+42 |
   @Override
   public void close() throws IOException {
-    db.close();
+      db.close();
   }
-
+47 |
   public static IdMap create(DB db) {
-    String idString = db.get(ID_KEY);
-    int currentId = idString == null ? 0 : Integer.parseInt(idString);
-    return new IdMap(db, currentId);
+      String idString = db.get(ID_KEY);
+      int currentId = idString == null ? 0 : Integer.parseInt(idString);
+      return new IdMap(db, currentId);
   }
 }

@@ -1,7 +1,6 @@
 package com.codecademy.eventhub.storage;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
+import com.codecademy.eventhub.model.Event;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.codecademy.eventhub.base.BloomFilter;
@@ -65,7 +64,6 @@ public class EventStorageModule extends AbstractModule {
     Cache<Long, Event> eventCache = CacheBuilder.newBuilder()
         .maximumSize(recordCacheSize)
         .recordStats()
-        .build();
 
     return new CachedEventStorage(journalEventStorage, eventCache);
   }

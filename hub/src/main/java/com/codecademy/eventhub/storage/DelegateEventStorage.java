@@ -3,6 +3,7 @@ package com.codecademy.eventhub.storage;
 import com.codecademy.eventhub.model.Event;
 import com.codecademy.eventhub.storage.visitor.Visitor;
 
+import com.codecademy.eventhub.storage.visitor.Visitor;
 import java.io.IOException;
 
 public class DelegateEventStorage implements EventStorage {

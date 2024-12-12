@@ -13,11 +13,11 @@ public class UserFilterVisitor implements Visitor {
 
   @Override
   public boolean visit(ExactMatch exactMatch) {
-    return exactMatch.getValue().equals(user.get(exactMatch.getKey()));
+    return exactMatch instanceof ExactMatch && user.get(exactMatch.getKey()).equals(exactMatch.getValue());
   }
 
   @Override
   public boolean visit(Regex regex) {
-    return regex.getPattern().matcher(user.get(regex.getKey())).matches();
+    return regex instanceof Regex && user.get(regex.getKey()).matches(regex.getPattern());
   }
 }

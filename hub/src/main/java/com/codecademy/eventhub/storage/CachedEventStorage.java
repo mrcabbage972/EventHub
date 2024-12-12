@@ -1,7 +1,7 @@
 package com.codecademy.eventhub.storage;
 
 import com.google.common.cache.Cache;
-import com.codecademy.eventhub.model.Event;
+import com.google.common.cache.Cache;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;

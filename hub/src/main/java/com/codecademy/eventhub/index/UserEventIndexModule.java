@@ -12,12 +12,12 @@ import com.codecademy.eventhub.list.DmaList;
 
 import javax.inject.Named;
 import java.io.File;
+import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.nio.MappedByteBuffer;
 
-public class UserEventIndexModule extends AbstractModule {
+import com.google.inject.AbstractModule;
   @Override
   protected void configure() {}
 
@@ -54,14 +54,6 @@ public class UserEventIndexModule extends AbstractModule {
     LoadingCache<Integer, MappedByteBuffer> buffers = CacheBuilder.newBuilder()
         .maximumSize(blockCacheSize)
         .recordStats()
-        .removalListener(new RemovalListener<Integer, MappedByteBuffer>() {
-          @Override
-          public void onRemoval(RemovalNotification<Integer, MappedByteBuffer> notification) {
-            MappedByteBuffer value = notification.getValue();
-            if (value != null) {
-              value.force();
-            }
-          }})
         .build(new CacheLoader<Integer, MappedByteBuffer>() {
           @Override
           public MappedByteBuffer load(Integer key) throws Exception {
@@ -72,7 +64,7 @@ public class UserEventIndexModule extends AbstractModule {
 
     String filename = directory + "block_factory.ser";
     File file = new File(filename);
-    if (file.exists()) {
+    if (file.exists())
       try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
         long currentPointer = ois.readLong();
         return new UserEventIndex.Block.Factory(filename, buffers, numRecordsPerBlock,

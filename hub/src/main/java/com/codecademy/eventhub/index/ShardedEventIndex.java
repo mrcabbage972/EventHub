@@ -3,11 +3,11 @@ package com.codecademy.eventhub.index;
 import com.google.common.collect.Ordering;
 import com.google.common.io.Files;
 
+import com.google.common.collect.Ordering;
+import com.google.common.io.Files;
+
 import java.io.Closeable;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.Map;
 

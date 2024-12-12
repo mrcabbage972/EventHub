@@ -6,10 +6,9 @@ import com.codecademy.eventhub.base.KeyValueCallback;
 import com.codecademy.eventhub.list.DmaList;
 import com.codecademy.eventhub.model.Event;
 import com.codecademy.eventhub.storage.filter.Regex;
-import com.codecademy.eventhub.storage.visitor.DelayedVisitorProxy;
 import com.codecademy.eventhub.storage.visitor.Visitor;
-
-import javax.inject.Provider;
+import com.codecademy.eventhub.storage.visitor.DelayedVisitorProxy;
+import com.codecademy.eventhub.storage.filter.ExactMatch;
 import java.io.IOException;
 
 public class BloomFilteredEventStorage extends DelegateEventStorage {
@@ -57,12 +56,12 @@ public class BloomFilteredEventStorage extends DelegateEventStorage {
   public String getVarz(int indentation) {
     String indent  = new String(new char[indentation]).replace('\0', ' ');
     return String.format(
-        "%s\n\n" +
-        indent + this.getClass().getName() + "\n" +
-        indent + "==================\n" +
-        indent + "num condition check: %d\n" +
-        indent + "num bloomfilter rejection: %d",
-        super.getVarz(indentation), numConditionCheck, numBloomFilterRejection);
+         "%s\n\n" +
+         indent + this.getClass().getName() + "\n" +
+         indent + "==================\n" +
+         indent + "num condition check: %d\n" +
+         indent + "num bloomfilter rejection: %d",
+         super.getVarz(indentation), numConditionCheck, numBloomFilterRejection);
   }
 
   @Override

@@ -5,8 +5,8 @@ import com.google.inject.Provides;
 import com.codecademy.eventhub.base.DB;
 import org.fusesource.leveldbjni.JniDBFactory;
 import org.iq80.leveldb.Options;
-
-import javax.inject.Named;
+import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
 import java.io.File;
 import java.io.IOException;
 
@@ -15,10 +15,9 @@ public class DatedEventIndexModule extends AbstractModule {
   protected void configure() {}
 
   @Provides
-  @Named("eventhub.datedeventindex.filename")
-  public String getDatedEventIndexFile(
-      @Named("eventhub.directory") String eventIndexDirectory) {
-    return eventIndexDirectory + "/dated_event_index.db";
+  public String getDatedEventIndexFile(String eventIndexDirectory) {
+    // return eventIndexDirectory + "/dated_event_index.db";
+    return "C:\\Users\\mhamlin\\AppData\\Local\\Temp\\DatedEventIndex";
   }
 
   @Provides
@@ -27,7 +26,9 @@ public class DatedEventIndexModule extends AbstractModule {
     Options options = new Options();
     options.createIfMissing(true);
     DB db = new DB(
-        JniDBFactory.factory.open(new File(eventIndexDirectory + "/dated_event_index.db"), options));
+        JniDBFactory.factory.open(new File(
+            getDatedEventIndexFile(eventIndexDirectory)),
+            options));
 
     return DatedEventIndex.create(db);
   }

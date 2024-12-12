@@ -1,13 +1,13 @@
 package com.codecademy.eventhub.index;
 
 import com.codecademy.eventhub.list.DmaIdList;
+import com.codecademy.eventhub.list.DmaIdList;
+import com.codecademy.eventhub.list.IdList;
 import com.codecademy.eventhub.list.IdList;
 
-import java.io.Closeable;
-import java.io.IOException;
 import java.util.SortedMap;
 
-public class EventIndex implements Closeable {
+class EventIndex implements Closeable {
   private final String directory;
   private final DmaIdList.Factory dmaIdListFactor;
   // from date string to IdList of eventId
@@ -21,8 +21,8 @@ public class EventIndex implements Closeable {
   }
 
   public void enumerateEventIds(String startDate, String endDate, Callback callback) {
-    for (IdList idList : eventIdListMap.subMap(startDate, endDate).values()) {
-      IdList.Iterator eventIdIterator = idList.iterator();
+    for (IdList eventIdList : eventIdListMap.subMap(startDate, endDate).values()) {
+      IdList.Iterator eventIdIterator = eventIdList.iterator();
       while (eventIdIterator.hasNext()) {
         callback.onEventId(eventIdIterator.next());
       }

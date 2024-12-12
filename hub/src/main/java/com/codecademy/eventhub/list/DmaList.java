@@ -3,16 +3,15 @@ package com.codecademy.eventhub.list;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import com.google.common.cache.RemovalListener;
 import com.google.common.cache.RemovalNotification;
 import com.codecademy.eventhub.base.ByteBufferUtil;
 import com.codecademy.eventhub.base.Schema;
 
 import java.io.Closeable;
-import java.io.File;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 
@@ -21,6 +20,7 @@ import java.nio.channels.FileChannel;
  * numRecordsPerFile < (2^31 - 1) / schema.getObjectSize()
  */
 public class DmaList<T> implements Closeable {
+  private final Schema<T> schema;
   private final String directory;
   private final Schema<T> schema;
   private final MappedByteBuffer metaDataBuffer;
@@ -56,6 +56,7 @@ public class DmaList<T> implements Closeable {
     duplicate.position((int) (id % numRecordsPerFile) * schema.getObjectSize());
     duplicate.put(schema.toBytes(t));
   }
+
 
   public T get(long kthRecord) {
     int objectSize = schema.getObjectSize();
@@ -124,4 +125,3 @@ public class DmaList<T> implements Closeable {
       throw new RuntimeException(e);
     }
   }
-}

@@ -204,16 +204,16 @@ public class EventHub implements Closeable {
 
   public String getVarz() {
     return String.format(
-        "current date: %s\n" +
-        "Event Storage:\n==============\n%s\n\n" +
-        "User Storage:\n==============\n%s\n\n" +
-        "Event Index:\n==============\n%s\n\n" +
-        "User Event Index:\n==============\n%s",
-        datedEventIndex.getCurrentDate(),
-        eventStorage.getVarz(1),
-        userStorage.getVarz(1),
-        shardedEventIndex.getVarz(1),
-        userEventIndex.getVarz(1));
+      "current date: %s\n" +
+      "Event Storage:\n==============\n%s\n\n" +
+      "User Storage:\n==============\n%s\n\n" +
+      "Event Index:\n==============\n%s\n\n" +
+      "User Event Index:\n==============\n%s",
+      datedEventIndex.getCurrentDate(),
+      eventStorage.getVarz(1),
+      userStorage.getVarz(1),
+      shardedEventIndex.getVarz(1),
+      userEventIndex.getVarz(1));
   }
 
   private int[] getEventTypeIds(String[] eventTypes) {

@@ -2,11 +2,12 @@ package com.codecademy.eventhub.model;
 
 import com.google.common.collect.Maps;
 import com.codecademy.eventhub.base.ByteBufferMap;
+import com.google.common.collect.Maps;
+import com.codecademy.eventhub.base.ByteBufferMap;
 import com.codecademy.eventhub.base.KeyValueCallback;
 
-import java.nio.ByteBuffer;
+import com.codecademy.eventhub.base.KeyValueCallback;
 import java.util.Map;
-
 public class User {
   private final ByteBufferMap byteBufferMap;
 

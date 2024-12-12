@@ -1,12 +1,12 @@
 package com.codecademy.eventhub.index;
 
+import java.io.Closeable;
+import java.io.IOException;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.codecademy.eventhub.base.DB;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.Collections;
@@ -16,9 +16,9 @@ import java.util.List;
  * DatedEventIndex is responsible for tracking the earliest event id for a given date.
  */
 public class DatedEventIndex implements Closeable {
-  private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.forPattern("yyyyMMdd");
+  private static final String DATE_TIME_FORMAT = "yyyyMMdd";
   private static final String DATE_PREFIX = "d";
-  private static final String ID_PREFIX = "i";
+  private static final String ID_PREFIX = "e";
 
   private final DB db;
   // O(numDays)
@@ -47,7 +47,7 @@ public class DatedEventIndex implements Closeable {
     String dateOfEvent = dates.get(startDateOffset);
     String endDate = DATE_TIME_FORMATTER.print(
         DateTime.parse(dateOfEvent, DATE_TIME_FORMATTER).plusDays(numDaysAfter));
-    int endDateOffset = Collections.binarySearch(dates, endDate);
+    int endDateOffset = Collections.binarySearch(dates, endDate, Collections.reverseOrder());
     if (endDateOffset < 0) {
       endDateOffset = -endDateOffset - 1;
       if (endDateOffset >= earliestEventIds.size()) {
@@ -66,7 +66,7 @@ public class DatedEventIndex implements Closeable {
     earliestEventIds.add(eventId);
 
     db.put(DATE_PREFIX + date, "");
-    db.put(ID_PREFIX + String.format("%020d", eventId), "");
+    db.put(ID_PREFIX + eventId, "");
   }
 
   public String getCurrentDate() {
@@ -83,9 +83,11 @@ public class DatedEventIndex implements Closeable {
     List<Long> earliestEventIds = Lists.newArrayList(
         Lists.transform(db.findByPrefix(ID_PREFIX, ID_PREFIX.length()), new Function<String, Long>() {
           @Override
-          public Long apply(String s) {
-            return Long.parseLong(s);
+          public Long apply(String str) {
+            if (str.length() <= ID_PREFIX.length()) {
+              return null;
           }
+            return Long.parseLong(str.substring(ID_PREFIX.length()));
         }));
     return new DatedEventIndex(db, dates, earliestEventIds,
         dates.isEmpty() ? "" : dates.get(dates.size() - 1));

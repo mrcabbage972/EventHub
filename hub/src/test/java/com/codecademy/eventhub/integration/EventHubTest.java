@@ -31,6 +31,7 @@ import com.codecademy.eventhub.storage.filter.ExactMatch;
 import com.codecademy.eventhub.storage.filter.Filter;
 import com.codecademy.eventhub.storage.filter.Regex;
 import com.codecademy.eventhub.storage.filter.TrueFilter;
+import java.security.cert.X509Certificate;
 import org.junit.Assert;
 import org.junit.Test;
 

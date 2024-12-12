@@ -4,15 +4,14 @@ import com.google.common.cache.LoadingCache;
 import com.codecademy.eventhub.base.ByteBufferUtil;
 import com.codecademy.eventhub.list.DmaList;
 
-import java.io.Closeable;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.Closeable;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.util.concurrent.atomic.AtomicInteger;
-
 /**
  * UserEventIndex is responsible for indexing events sharded by users.
  */
@@ -92,20 +91,12 @@ public class UserEventIndex implements Closeable {
     IndexEntry indexEntry;
     long maxId = index.getMaxId();
     if (userId > maxId) {
-      Block block = blockFactory.build(0, eventId);
-      indexEntry = indexEntryFactory.build();
-      indexEntry.setMinId(eventId);
-      indexEntry.shiftBlock(block);
+      indexEntry = createEntryAndShiftFirstBlock(eventId);
     } else {
       indexEntry = index.get(userId);
       int numRecords = indexEntry.getNumRecords();
-      // this is more or less a hack, it relies on MappedByteBuffer to zeroes the buffer when initialized
-      // which is an undefined behavior in the spec but implemented so in openjdk.
-      if (numRecords == 0) {
-        Block block = blockFactory.build(0, eventId);
-        indexEntry = indexEntryFactory.build();
-        indexEntry.setMinId(eventId);
-        indexEntry.shiftBlock(block);
+      if (numRecords == 0) { // new user
+        indexEntry = createEntryAndShiftFirstBlock(eventId);
       } else {
         int numRecordsPerBlock = blockFactory.getNumRecordsPerBlock();
         int blockOffset = numRecords / numRecordsPerBlock;
@@ -127,6 +118,15 @@ public class UserEventIndex implements Closeable {
   }
 
   @Override
+  public void close() throws IOException {
+    index.close();
+    blockFactory.close();
+  }
+
+  public String getVarz(int indentation) {
+    // TODO
+    String indent  = new String(new char[indentation]).replace('\0', ' ');
+    return String.format(
   public void close() throws IOException {
     index.close();
     blockFactory.close();
@@ -428,3 +428,11 @@ public class UserEventIndex implements Closeable {
     public boolean shouldContinueOnEventId(long eventId);
   }
 }
+
+  private IndexEntry createEntryAndShiftFirstBlock(long eventId) {
+    Block block = blockFactory.build(0, eventId);
+    IndexEntry indexEntry = indexEntryFactory.build();
+    indexEntry.setMinId(eventId);
+    indexEntry.shiftBlock(block);
+    return indexEntry;
+  }

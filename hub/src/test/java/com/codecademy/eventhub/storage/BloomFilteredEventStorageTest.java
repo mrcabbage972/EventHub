@@ -1,3 +1,4 @@
+// Copyright 2013 Codecademy Inc. All rights reserved.
 package com.codecademy.eventhub.storage;
 
 import com.google.common.collect.ImmutableMap;
@@ -9,6 +10,7 @@ import com.codecademy.eventhub.storage.filter.Filter;
 import com.codecademy.eventhub.integration.GuiceTestCase;
 import com.codecademy.eventhub.model.Event;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 import javax.inject.Provider;
@@ -17,6 +19,12 @@ import java.util.Map;
 import java.util.Properties;
 
 public class BloomFilteredEventStorageTest extends GuiceTestCase {
+  @Test
+  public void testVarz() throws Exception {
+    Provider<BloomFilteredEventStorage> provider = getBloomFilteredEventStorageProvider();
+    BloomFilteredEventStorage eventStorage = provider.get();
+    Assert.assertTrue(eventStorage.getVarz(0).contains("num condition check: "));
+  }
   @Test
   public void testAll() throws Exception {
     Provider<BloomFilteredEventStorage> bloomFilteredEventStorageProvider = getBloomFilteredEventStorageProvider();
@@ -78,6 +86,20 @@ public class BloomFilteredEventStorageTest extends GuiceTestCase {
   }
 
   private Provider<BloomFilteredEventStorage> getBloomFilteredEventStorageProvider() {
+    Properties prop = new Properties();
+    prop.put("eventhub.directory", getTempDirectory());
+    prop.put("eventhub.journaleventstorage.numMetaDataPerFile", "1");
+    prop.put("eventhub.journaleventstorage.metaDataFileCacheSize", "1");
+    prop.put("eventhub.journaleventstorage.journalFileSize", "1024");
+    prop.put("eventhub.journaleventstorage.journalWriteBatchSize", "1024");
+    prop.put("eventhub.cachedeventstorage.recordCacheSize", "1");
+    prop.put("eventhub.bloomfilteredeventstorage.bloomFilterSize", "64");
+    prop.put("eventhub.bloomfilteredeventstorage.numHashes", "1");
+    prop.put("eventhub.bloomfilteredeventstorage.numMetaDataPerFile", "1");
+    prop.put("eventhub.bloomfilteredeventstorage.metaDataFileCacheSize", "1");
+
+    Injector injector = createInjectorFor(
+        prop, new EventStorageModule());
     Properties prop = new Properties();
     prop.put("eventhub.directory", getTempDirectory());
     prop.put("eventhub.journaleventstorage.numMetaDataPerFile", "1");
