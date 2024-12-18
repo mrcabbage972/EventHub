@@ -216,7 +216,12 @@ public class UserEventIndex implements Closeable {
         return numRecords;
       }
 
-      public long getPointer() {
+         final int fileSize = numBlocksPerFile * (numRecordsPerBlock * UserEventIndex.ID_SIZE + UserEventIndex.Block.MetaData.SIZE);
+         MappedByteBuffer byteBuffer = buffers.getUnchecked((int) (pointer / fileSize));
+         ByteBuffer metaDataByteBuffer = byteBuffer.duplicate();
+         metaDataByteBuffer.limit(metaDataByteBuffer.position() + MetaData.SIZE);
+         ByteBuffer blockByteBuffer = byteBuffer.duplicate();
+         blockByteBuffer.position(metaDataByteBuffer.position());
         return byteBuffer.getLong(8);
       }
 
