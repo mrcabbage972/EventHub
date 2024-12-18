@@ -263,17 +263,13 @@ public class UserEventIndex implements Closeable {
         this.numRecordsPerBlock = numRecordsPerBlock;
         this.numBlocksPerFile = numBlocksPerFile;
         this.currentPointer = currentPointer;
-      public int getNumRecordsPerBlock() {\n+        return numRecordsPerBlock;\n+      }\n+
       public int getNumRecordsPerBlock() {
-        final int fileSize = numBlocksPerFile * (
-            numRecordsPerBlock * UserEventIndex.ID_SIZE + UserEventIndex.Block.MetaData.SIZE);
+      public int getNumRecordsPerBlock() {
+        return numRecordsPerBlock;
       public Block find(long pointer) {
-        final int fileSize = numBlocksPerFile * (
-            numRecordsPerBlock * UserEventIndex.ID_SIZE + UserEventIndex.Block.MetaData.SIZE);
+        final int fileSize = numBlocksPerFile * (numRecordsPerBlock * UserEventIndex.ID_SIZE + UserEventIndex.Block.MetaData.SIZE);
         MappedByteBuffer byteBuffer = buffers.getUnchecked((int) (pointer / fileSize));
         ByteBuffer metaDataByteBuffer = byteBuffer.duplicate();
-        metaDataByteBuffer.position((int) (pointer % fileSize));
-        metaDataByteBuffer = metaDataByteBuffer.slice();
         blockByteBuffer = blockByteBuffer.slice();
       }
 
@@ -284,9 +280,6 @@ public class UserEventIndex implements Closeable {
         MappedByteBuffer byteBuffer = buffers.getUnchecked((int) (pointer / fileSize));
         int blockSize = numRecordsPerBlock * ID_SIZE + MetaData.SIZE;
         currentPointer += blockSize;
-        ByteBuffer metaDataByteBuffer = byteBuffer.duplicate();
-        metaDataByteBuffer.position((int) (pointer % fileSize));
-        metaDataByteBuffer = metaDataByteBuffer.slice();
         ByteBuffer blockByteBuffer = byteBuffer.duplicate();
         blockByteBuffer.position((int) (pointer % fileSize) + Block.MetaData.SIZE);
         blockByteBuffer = blockByteBuffer.slice();
