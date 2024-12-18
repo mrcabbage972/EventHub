@@ -64,7 +64,7 @@ public class DatedEventIndex implements Closeable {
     currentDate = date;
     dates.add(date);
     earliestEventIds.add(eventId);
-
+    db.put(DATE_PREFIX + date, "");
     db.put(DATE_PREFIX + date, "");
     db.put(ID_PREFIX + String.format("%020d", eventId), "");
   }

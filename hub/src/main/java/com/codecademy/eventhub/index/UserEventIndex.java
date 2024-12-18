@@ -263,12 +263,11 @@ public class UserEventIndex implements Closeable {
         this.numRecordsPerBlock = numRecordsPerBlock;
         this.numBlocksPerFile = numBlocksPerFile;
         this.currentPointer = currentPointer;
-      }
-
+      }\n+
+      public int getNumRecordsPerBlock() {\n+        return numRecordsPerBlock;\n+      }\n+
       public int getNumRecordsPerBlock() {
-        return numRecordsPerBlock;
-      }
-
+        final int fileSize = numBlocksPerFile * (
+            numRecordsPerBlock * UserEventIndex.ID_SIZE + UserEventIndex.Block.MetaData.SIZE);
       public Block find(long pointer) {
         final int fileSize = numBlocksPerFile * (
             numRecordsPerBlock * UserEventIndex.ID_SIZE + UserEventIndex.Block.MetaData.SIZE);
@@ -276,10 +275,9 @@ public class UserEventIndex implements Closeable {
         ByteBuffer metaDataByteBuffer = byteBuffer.duplicate();
         metaDataByteBuffer.position((int) (pointer % fileSize));
         metaDataByteBuffer = metaDataByteBuffer.slice();
-        ByteBuffer blockByteBuffer = byteBuffer.duplicate();
+  public static class IndexEntry {\n+    private AtomicInteger numRecords;\n+    private final long[] pointers;\n+    private final long[] minIds;\n+    private long minId;\n   \n     public IndexEntry(AtomicInteger numRecords, long minId, long[] pointers, long[] minIds) {\n       this.numRecords = numRecords;\n@@ -551,7 +551,7 @@
         blockByteBuffer.position((int) (pointer % fileSize) + Block.MetaData.SIZE);
         blockByteBuffer = blockByteBuffer.slice();
-        return new Block(new Block.MetaData(metaDataByteBuffer), blockByteBuffer);
       }
 
       public synchronized Block build(int blockOffset, long id) {

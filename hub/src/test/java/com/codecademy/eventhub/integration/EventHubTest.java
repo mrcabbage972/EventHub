@@ -225,8 +225,7 @@ public class EventHubTest extends GuiceTestCase {
     }
 
     for (int eventId = 0; eventId < NUM_EVENTS; eventId++) {
-      Event event = eventStorage.getEvent(eventId);
-      Assert.assertEquals(shardedEventIndex.getEventTypeId(event.getEventType()), eventStorage.getEventTypeId(eventId));
+      Assert.assertEquals(shardedEventIndex.getEventTypeId(eventStorage.getEvent(eventId).getEventType()), eventStorage.getEventTypeId(eventId));
       Assert.assertEquals(userStorage.getId(event.getExternalUserId()), eventStorage.getUserId(eventId));
     }
 
@@ -258,6 +257,7 @@ public class EventHubTest extends GuiceTestCase {
       userEventIndex.enumerateEventIds(userId, 0, NUM_EVENTS, new UserEventIndex.Callback() {
         @Override
         public boolean shouldContinueOnEventId(long eventId) {
+          Assert.assertEquals(USER_ID, userStorage.getId(\n              eventStorage.getEvent(eventId).getExternalUserId()));
           Assert.assertEquals(USER_ID, userStorage.getId(
               eventStorage.getEvent(eventId).getExternalUserId()));
           return true;

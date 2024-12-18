@@ -107,9 +107,9 @@ public class JournalUserStorage implements UserStorage {
   public String getVarz(int indentation) {
     String indent  = new String(new char[indentation]).replace('\0', ' ');
     return String.format(
-        indent + this.getClass().getName() + "\n" +
+        indent + this.getClass().getName() + "\\n" +
         indent + "==================\n" +
-        indent + "current id: %d\n" +
+        indent + "current id: %d\\n" +
         indent + "metaDataList:\n%s",
         idMap.getCurrentId(),
         metaDataList.getVarz(indentation + 1));
