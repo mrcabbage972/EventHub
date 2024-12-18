@@ -263,7 +263,6 @@ public class UserEventIndex implements Closeable {
         this.numRecordsPerBlock = numRecordsPerBlock;
         this.numBlocksPerFile = numBlocksPerFile;
         this.currentPointer = currentPointer;
-      }\n+
       public int getNumRecordsPerBlock() {\n+        return numRecordsPerBlock;\n+      }\n+
       public int getNumRecordsPerBlock() {
         final int fileSize = numBlocksPerFile * (
@@ -275,8 +274,6 @@ public class UserEventIndex implements Closeable {
         ByteBuffer metaDataByteBuffer = byteBuffer.duplicate();
         metaDataByteBuffer.position((int) (pointer % fileSize));
         metaDataByteBuffer = metaDataByteBuffer.slice();
-  public static class IndexEntry {\n+    private AtomicInteger numRecords;\n+    private final long[] pointers;\n+    private final long[] minIds;\n+    private long minId;\n   \n     public IndexEntry(AtomicInteger numRecords, long minId, long[] pointers, long[] minIds) {\n       this.numRecords = numRecords;\n@@ -551,7 +551,7 @@
-        blockByteBuffer.position((int) (pointer % fileSize) + Block.MetaData.SIZE);
         blockByteBuffer = blockByteBuffer.slice();
       }
 
