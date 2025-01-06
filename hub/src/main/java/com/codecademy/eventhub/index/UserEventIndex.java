@@ -135,13 +135,6 @@ public class UserEventIndex implements Closeable {
   public String getVarz(int indentation) {
     // TODO
     String indent  = new String(new char[indentation]).replace('\0', ' ');
-    return String.format(
-        indent + this.getClass().getName() + "\n" +
-            indent + "==================\n" +
-            indent + "index: %s\n",
-        index.getVarz(indentation + 1)
-    );
-  }
 
   private Block findBlock(IndexEntry indexEntry, int blockOffset) {
     int numPointersPerIndexEntry = indexEntryFactory.getNumPointers();
@@ -252,7 +245,7 @@ public class UserEventIndex implements Closeable {
     public static class Factory implements Closeable {
       private final String filename;
       private final int numBlocksPerFile;
-      private long currentPointer;
+      private final int numBlocksPerFile;
       private final LoadingCache<Integer, MappedByteBuffer> buffers;
       private final int numRecordsPerBlock;
 
@@ -262,7 +255,9 @@ public class UserEventIndex implements Closeable {
         this.buffers = buffers;
         this.numRecordsPerBlock = numRecordsPerBlock;
         this.numBlocksPerFile = numBlocksPerFile;
+        this.numBlocksPerFile = numBlocksPerFile;
         this.currentPointer = currentPointer;
+        this.numBlocksPerFile = numBlocksPerFile;
       }
 
       public int getNumRecordsPerBlock() {
@@ -272,7 +267,7 @@ public class UserEventIndex implements Closeable {
       public Block find(long pointer) {
         final int fileSize = numBlocksPerFile * (
             numRecordsPerBlock * UserEventIndex.ID_SIZE + UserEventIndex.Block.MetaData.SIZE);
-        MappedByteBuffer byteBuffer = buffers.getUnchecked((int) (pointer / fileSize));
+        MappedByteBuffer byteBuffer = buffers.getUnchecked((int)(pointer / fileSize));
         ByteBuffer metaDataByteBuffer = byteBuffer.duplicate();
         metaDataByteBuffer.position((int) (pointer % fileSize));
         metaDataByteBuffer = metaDataByteBuffer.slice();
@@ -285,6 +280,7 @@ public class UserEventIndex implements Closeable {
       public synchronized Block build(int blockOffset, long id) {
         final int fileSize = numBlocksPerFile * (
             numRecordsPerBlock * UserEventIndex.ID_SIZE + UserEventIndex.Block.MetaData.SIZE);
+        long pointer = currentPointer++;
         long pointer = currentPointer;
         MappedByteBuffer byteBuffer = buffers.getUnchecked((int) (pointer / fileSize));
         int blockSize = numRecordsPerBlock * ID_SIZE + MetaData.SIZE;

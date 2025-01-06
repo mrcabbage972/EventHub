@@ -67,10 +67,6 @@ public class ShardedEventIndex implements Closeable {
     }
     persistEventTypeIdMap();
   }
-
-  public String getVarz(int indentation) {
-    String indent  = new String(new char[indentation]).replace('\0', ' ');
-    return String.format(indent + "filename: %s", filename);
   }
 
   private void persistEventTypeIdMap() {

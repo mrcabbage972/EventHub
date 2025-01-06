@@ -5,6 +5,10 @@ import com.codecademy.eventhub.model.User;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import com.codecademy.eventhub.model.User;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 public class CachedUserStorage extends DelegateUserStorage {
   private final Cache<Integer, User> userCache;
@@ -22,7 +26,16 @@ public class CachedUserStorage extends DelegateUserStorage {
   }
 
   @Override
-  public User getUser(final int userId) {
+    try {
+      return userCache.get(userId, new Callable<User>() {
+        @Override
+        public User call() {
+          return CachedUserStorage.super.getUser(userId);
+        }
+      });
+    } catch (ExecutionException e) {
+      throw new RuntimeException(e);
+    }
     try {
       return userCache.get(userId, new Callable<User>() {
         @Override

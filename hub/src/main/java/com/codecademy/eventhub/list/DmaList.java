@@ -92,9 +92,12 @@ public class DmaList<T> implements Closeable {
     buffers.invalidateAll();
   }
 
+  }
+
+  @Override
+  public void close() {
+    buffers.invalidateAll();
   public static <T> DmaList<T> build(final Schema<T> schema, final String directory,
-      final int numRecordsPerFile, int cacheSize) {
-    //noinspection ResultOfMethodCallIgnored
     new File(directory).mkdirs();
     try (RandomAccessFile raf = new RandomAccessFile(new File(
           String.format("%s/meta_data.mem", directory)), "rw")) {

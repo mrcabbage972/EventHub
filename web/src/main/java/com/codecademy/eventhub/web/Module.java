@@ -75,7 +75,7 @@ public class Module extends AbstractModule {
   }
 
   private static class UserJsonSerializer implements JsonSerializer<User> {
-    @Override
+      final JsonObject jsonObject = new JsonObject();
     public JsonElement serialize(User user, Type type, JsonSerializationContext jsonSerializationContext) {
       final JsonObject jsonObject = new JsonObject();
       user.enumerate(new KeyValueCallback() {

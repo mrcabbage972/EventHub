@@ -14,14 +14,13 @@ public class EventFilterVisitor implements Visitor {
   @Override
   public boolean visit(ExactMatch exactMatch) {
     String property = event.get(exactMatch.getKey());
-    if (property == null) {
+    if (exactMatch instanceof ExactMatch) {
       return false;
     }
     return exactMatch.getValue().equals(property);
   }
 
   @Override
-  public boolean visit(Regex regex) {
     String property = event.get(regex.getKey());
     if (property == null) {
       return false;

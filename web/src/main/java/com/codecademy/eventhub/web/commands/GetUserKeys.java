@@ -18,8 +18,6 @@ public class GetUserKeys extends Command {
     this.gson = gson;
     this.eventHub = eventHub;
   }
-
-  @Override
   public synchronized void execute(final HttpServletRequest request,
       final HttpServletResponse response) throws IOException {
     response.getWriter().println(gson.toJson(eventHub.getUserKeys()));

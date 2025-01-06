@@ -84,7 +84,6 @@ public class BloomFilteredEventStorage extends DelegateEventStorage {
       this.visitor = visitor;
     }
 
-    @Override
     public boolean visit(ExactMatch exactMatch) {
       String bloomFilterKey = getBloomFilterKey(exactMatch.getKey(), exactMatch.getValue());
       if (!bloomFilter.isPresent(bloomFilterKey)) {
@@ -94,7 +93,6 @@ public class BloomFilteredEventStorage extends DelegateEventStorage {
       return visitor.visit(exactMatch);
     }
 
-    @Override
     public boolean visit(Regex regex) {
       return visitor.visit(regex);
     }

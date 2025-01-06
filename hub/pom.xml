@@ -13,7 +13,6 @@
     <artifactId>hub</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
-
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -40,11 +39,6 @@
             <groupId>org.fusesource.hawtjournal</groupId>
             <artifactId>hawtjournal</artifactId>
             <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.fusesource.leveldbjni</groupId>
-            <artifactId>leveldbjni-all</artifactId>
-            <version>1.7</version>
         </dependency>
     </dependencies>
 </project>

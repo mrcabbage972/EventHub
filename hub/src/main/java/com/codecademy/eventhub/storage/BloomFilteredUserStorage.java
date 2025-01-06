@@ -114,6 +114,28 @@ public class BloomFilteredUserStorage extends DelegateUserStorage {
       }
       return visitor.visit(exactMatch);
     }
+  private static String getBloomFilterKey(String key, String value) {
+    return key + value;
+  }
+
+  private class BloomFilteredFilterVisitor implements Visitor {
+    private final BloomFilter bloomFilter;
+    private final Visitor visitor;
+
+    public BloomFilteredFilterVisitor(BloomFilter bloomFilter, Visitor visitor) {
+      this.bloomFilter = bloomFilter;
+      this.visitor = visitor;
+    }
+
+    @Override
+    public boolean visit(ExactMatch exactMatch) {
+      String bloomFilterKey = getBloomFilterKey(exactMatch.getKey(), exactMatch.getValue());
+      if (!bloomFilter.isPresent(bloomFilterKey)) {
+        numBloomFilterRejection++;
+        return false;
+      }
+      return visitor.visit(exactMatch);
+    }
 
     @Override
     public boolean visit(Regex regex) {

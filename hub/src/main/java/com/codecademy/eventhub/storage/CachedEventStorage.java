@@ -5,6 +5,10 @@ import com.codecademy.eventhub.model.Event;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
+import com.codecademy.eventhub.model.Event;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 
 public class CachedEventStorage extends DelegateEventStorage {
   private final Cache<Long, Event> eventCache;
@@ -15,7 +19,16 @@ public class CachedEventStorage extends DelegateEventStorage {
   }
 
   @Override
-  public Event getEvent(final long eventId) {
+    try {
+      return eventCache.get(eventId, new Callable<Event>() {
+        @Override
+        public Event call() {
+          return CachedEventStorage.super.getEvent(eventId);
+        }
+      });
+    } catch (ExecutionException e) {
+      throw new RuntimeException(e);
+    }
     try {
       return eventCache.get(eventId, new Callable<Event>() {
         @Override

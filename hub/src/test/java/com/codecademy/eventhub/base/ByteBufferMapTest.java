@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.util.Map;
 
 public class ByteBufferMapTest {
-  @Test
+public class ByteBufferMapTest  {
   public void testAll() throws Exception {
     Map<String, String> properties = Maps.newHashMap();
     properties.put("a", "b");
@@ -38,11 +38,6 @@ public class ByteBufferMapTest {
     private final String[] expectedKeys;
     private final String[] expectedValues;
     private int counter;
-
-    private MyCallback(String[] expectedKeys, String[] expectedValues) {
-      this.expectedKeys = expectedKeys;
-      this.expectedValues = expectedValues;
-      this.counter = 0;
     }
 
     @Override
@@ -50,7 +45,6 @@ public class ByteBufferMapTest {
       Assert.assertEquals(expectedKeys[counter], key);
       Assert.assertEquals(expectedValues[counter], value);
       counter++;
-    }
 
     public void verify(int expectedCount) {
       Assert.assertEquals(expectedCount, counter);

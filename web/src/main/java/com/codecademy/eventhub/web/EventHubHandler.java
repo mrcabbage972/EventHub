@@ -96,7 +96,7 @@ public class EventHubHandler extends AbstractHandler implements Closeable {
         new UserEventIndexModule(),
         new EventStorageModule(),
         new UserStorageModule(),
-        new EventHubModule(properties)).with(new Module()));
+        new EventHubModule(properties))).with(new Module()));
     final EventHubHandler eventHubHandler = injector.getInstance(EventHubHandler.class);
     int port = injector.getInstance(Key.get(Integer.class, Names.named("eventhubhandler.port")));
 

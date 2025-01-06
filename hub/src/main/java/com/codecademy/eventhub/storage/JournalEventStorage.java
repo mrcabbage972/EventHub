@@ -78,14 +78,10 @@ public class JournalEventStorage implements EventStorage {
     eventJournal.close();
     metaDataList.close();
   }
-
-  @Override
-  public String getVarz(int indentation) {
     String indent  = new String(new char[indentation]).replace('\0', ' ');
     return String.format(
-        indent + this.getClass().getName() + "\n" +
+        currentId, metaDataList.getVarz(indentation + 1)
         indent + "==================\n" +
-        indent + "current id: %d\n" +
         indent + "metaDataList:\n%s",
         currentId, metaDataList.getVarz(indentation + 1));
   }
@@ -97,7 +93,6 @@ public class JournalEventStorage implements EventStorage {
 
     public MetaData(int userId, int eventTypeId, byte[] location) {
       this.userId = userId;
-      this.eventTypeId = eventTypeId;
       this.location = location;
     }
 

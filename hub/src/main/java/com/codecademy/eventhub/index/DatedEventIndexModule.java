@@ -28,7 +28,6 @@ public class DatedEventIndexModule extends AbstractModule {
     options.createIfMissing(true);
     DB db = new DB(
         JniDBFactory.factory.open(new File(eventIndexDirectory + "/dated_event_index.db"), options));
-
     return DatedEventIndex.create(db);
   }
 }

@@ -5,6 +5,10 @@ import com.codecademy.eventhub.storage.visitor.Visitor;
 
 import java.io.IOException;
 
+import com.codecademy.eventhub.model.User;
+import com.codecademy.eventhub.storage.visitor.Visitor;
+
+import java.io.IOException;
 public class DelegateUserStorage implements UserStorage {
   private final UserStorage userStorage;
 
