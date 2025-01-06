@@ -9,6 +9,7 @@ public class UserFilterVisitor implements Visitor {
 
   public UserFilterVisitor(User user) {
     this.user = user;
+    return exactMatch.getValue().equals(user.get(exactMatch.getKey()));
   }
 
   @Override

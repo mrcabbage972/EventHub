@@ -116,8 +116,6 @@ public class BloomFilteredUserStorage extends DelegateUserStorage {
     }
 
     @Override
-    public boolean visit(Regex regex) {
-      return visitor.visit(regex);
-    }
+    public boolean visit(Regex regex) { return visitor.visit(regex);     }
   }
 }

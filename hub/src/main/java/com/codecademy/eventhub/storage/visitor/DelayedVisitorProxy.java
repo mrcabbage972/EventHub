@@ -15,17 +15,13 @@ public class DelayedVisitorProxy implements Visitor {
 
   @Override
   public boolean visit(ExactMatch exactMatch) {
-    if (cachedVisitor == null) {
-      cachedVisitor = visitorProvider.get();
-    }
+    if (cachedVisitor == null) cachedVisitor = visitorProvider.get();
     return cachedVisitor.visit(exactMatch);
   }
 
   @Override
   public boolean visit(Regex regex) {
-    if (cachedVisitor == null) {
-      cachedVisitor = visitorProvider.get();
-    }
+    if (cachedVisitor == null) cachedVisitor = visitorProvider.get();
     return cachedVisitor.visit(regex);
   }
 }

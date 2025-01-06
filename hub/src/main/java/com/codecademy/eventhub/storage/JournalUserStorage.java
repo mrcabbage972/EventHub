@@ -16,7 +16,7 @@ import java.nio.ByteBuffer;
 
 public class JournalUserStorage implements UserStorage {
   private final Journal userJournal;
-  private DmaList<MetaData> metaDataList;
+  private final DmaList<MetaData> metaDataList;
   private final IdMap idMap;
 
   public JournalUserStorage(Journal userJournal, DmaList<MetaData> metaDataList, IdMap idMap) {
@@ -24,7 +24,7 @@ public class JournalUserStorage implements UserStorage {
     this.metaDataList = metaDataList;
     this.idMap = idMap;
   }
-
+ 27 |
   @Override
   public synchronized int ensureUser(String externalUserId) {
     int id = getId(externalUserId);
@@ -44,7 +44,7 @@ public class JournalUserStorage implements UserStorage {
     }
   }
 
-  @Override
+ @Override
   public int getNumRecords() {
     return (int) metaDataList.getMaxId();
   }

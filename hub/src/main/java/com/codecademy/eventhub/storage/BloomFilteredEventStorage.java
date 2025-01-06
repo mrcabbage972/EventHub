@@ -88,12 +88,9 @@ public class BloomFilteredEventStorage extends DelegateEventStorage {
     public boolean visit(ExactMatch exactMatch) {
       String bloomFilterKey = getBloomFilterKey(exactMatch.getKey(), exactMatch.getValue());
       if (!bloomFilter.isPresent(bloomFilterKey)) {
-        numBloomFilterRejection++;
-        return false;
-      }
-      return visitor.visit(exactMatch);
-    }
-
+      if (!bloomFilter.isPresent(bloomFilterKey)) {        numBloomFilterRejection++;
+        return false;      }
+      return visitor.visit(exactMatch);    }
     @Override
     public boolean visit(Regex regex) {
       return visitor.visit(regex);

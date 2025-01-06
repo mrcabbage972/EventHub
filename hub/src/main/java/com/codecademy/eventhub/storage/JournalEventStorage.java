@@ -17,7 +17,7 @@ public class JournalEventStorage implements EventStorage {
   private final Journal eventJournal;
   private final MetaData.Schema schema;
   private final DmaList<MetaData> metaDataList;
-  private long currentId;
+  private final long currentId;
 
   public JournalEventStorage(Journal eventJournal, MetaData.Schema schema,
       DmaList<MetaData> metaDataList, long currentId) {
