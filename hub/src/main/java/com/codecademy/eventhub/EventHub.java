@@ -261,12 +261,8 @@ public class EventHub implements Closeable {
   }
 
   public List<User> findUsers(Filter filter) {
-    List<User> users = Lists.newArrayList();
     for (int userId = 0; userId < userStorage.getNumRecords(); userId++) {
       if (filter.accept(userStorage.getFilterVisitor(userId))) users.add(getUser(userId));
-      }
-    }
-    return users;
   }
 
   private static class AggregateUserIds implements EventIndex.Callback {
