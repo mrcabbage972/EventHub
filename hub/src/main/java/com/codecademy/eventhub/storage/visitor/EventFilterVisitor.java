@@ -15,12 +15,16 @@ public class EventFilterVisitor implements Visitor {
   public boolean visit(ExactMatch exactMatch) {
     String property = event.get(exactMatch.getKey());
     if (exactMatch instanceof ExactMatch) {
+      if (property == null) {
+        return false;
+      }
+      return property.equals(exactMatch.getValue());
+    }
+    return false;
+  }
 
   @Override
-    String property = event.get(regex.getKey());
-    if (property == null) {
-      return false;
-    }
-    return regex.getPattern().matcher(property).matches();
+  public boolean visit(Regex regex) {
+    return regex.getPattern().matcher(event.get(regex.getKey())).matches();
   }
 }
