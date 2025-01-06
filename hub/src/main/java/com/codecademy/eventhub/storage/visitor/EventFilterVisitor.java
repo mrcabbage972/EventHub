@@ -15,10 +15,6 @@ public class EventFilterVisitor implements Visitor {
   public boolean visit(ExactMatch exactMatch) {
     String property = event.get(exactMatch.getKey());
     if (exactMatch instanceof ExactMatch) {
-      return false;
-    }
-    return exactMatch.getValue().equals(property);
-  }
 
   @Override
     String property = event.get(regex.getKey());
